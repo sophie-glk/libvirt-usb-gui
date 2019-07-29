@@ -1,8 +1,9 @@
 #include <usb.h>
 using namespace std;
 static int sleep = 4;
-[[noreturn]] void get_usb_devices(Ui::MainWindow *ui, vector<string> *devices) {
 
+[[noreturn]] void get_usb_devices(Ui::MainWindow *ui, vector<string> *devices) {
+  bool startup = true;
   for (;;) {
     // clear the device list
     devices->clear();
@@ -57,7 +58,7 @@ static int sleep = 4;
     }
 
     // visual effect if the device list has changed
-    if (change) {
+    if (change && !startup) {
       QPalette pal = ui->usb_devices->palette();
       auto color1 = pal.color(QPalette::Background);
       auto color2 = pal.color(QPalette::Highlight);
@@ -71,6 +72,7 @@ static int sleep = 4;
       ui->centralWidget->setPalette(pal);
     }
     // repeat after n seconds
+    startup = false;
     this_thread::sleep_for(chrono::seconds(sleep));
   }
 }
