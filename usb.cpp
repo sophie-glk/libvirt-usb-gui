@@ -1,4 +1,5 @@
 #include <usb.h>
+
 using namespace std;
 static int sleep = 4;
 
@@ -91,7 +92,8 @@ void connector(Ui::MainWindow *ui, string device, config *c) {
   if (c->quotes == "true") {
     q = "\"";
   }
-  string file = "/tmp/libvirt_usb_gui.xml";
+  string uname = getenv("USER");
+  string file = "/tmp/" + uname + "-libvirt_usb_gui.xml";
 
   string xml = "\"<hostdev mode='subsystem' type='usb' managed='yes'> <source> "
                "<vendor id='0x" +
