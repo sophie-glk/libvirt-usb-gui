@@ -1,7 +1,7 @@
 #include <usb.h>
 
 using namespace std;
-static int sleep = 4;
+static int sleep = 2;
 
 [[noreturn]] void get_usb_devices(Ui::MainWindow *ui, vector<string> *devices) {
   bool startup = true;
@@ -105,7 +105,8 @@ void connector(Ui::MainWindow *ui, string device, config *c) {
   string response = exec(cmd);
   // if its already in use we try to detach it
   if (response.find("in use by driver QEMU") != string::npos) {
-    response = exec("sudo virsh detach-device " + vm_ID + " --file " + file);
+    response = exec(c->sudo + " " + q + "virsh detach-device " + vm_ID +
+                    " --file " + file + q);
   }
   istringstream response_stream(response);
   string line;
